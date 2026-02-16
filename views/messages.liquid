@@ -1,0 +1,8 @@
+  {% for message in messages %}
+    <li>{{ message }}</li>
+  {% endfor %}
+
+<form method="POST" action="/berichten">
+    <input type="text" name="message">
+    <button>GO</button>
+</form>

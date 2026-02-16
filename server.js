@@ -81,12 +81,12 @@ app.get('/', async function (request, response) {
 })
 
 // Maak een POST route voor de index; hiermee kun je bijvoorbeeld formulieren afvangen
-app.post('/', async function (request, response) {
+app.post('/berichten', async function (request, response) {
   // Je zou hier data kunnen opslaan, of veranderen, of wat je maar wilt
   // Er is nog geen afhandeling van POST, redirect naar GET op /
   response.redirect(303, '/')
+  messages.push(request.body.message)
 })
-
 
 // Maak een GET route voor een detailpagina met een route parameter, id
 // Zie de documentatie van Express voor meer info: https://expressjs.com/en/guide/routing.html#route-parameters
@@ -137,6 +137,16 @@ app.get('/seizoen/:id', async function (request, response) {
   const personResponseJSON = await personResponse.json()
   response.render('seizoen.liquid', {persons: personResponseJSON.data, squads: squadResponseJSON.data})
   
+})
+
+
+
+let messages = ['hey']
+
+app.get('/berichten', async function(request, response) {
+  response.render('messages.liquid', {
+    messages: messages
+  })
 })
 
 
