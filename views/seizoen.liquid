@@ -1,6 +1,10 @@
+{% comment %} dit laat zien wat er in je database staat {% endcomment %}
+{% comment %} {{ person | json }} {% endcomment %}
+
+
 {% render 'partials/head.liquid', title: 'Squad page' %}
 
-<h2>Students</h2>
+<main>
 
     <div class="seizoenen-emojis">
     <a href="/seizoen/Lente">Lente</a>
@@ -9,11 +13,12 @@
     <a href="/seizoen/Winter">Winter</a>
   </div>
 
-
-<ul>
+  <ul>
   {% for person in persons %}
     <li><a href="/student/{{ person.id }}">{{ person.name }}</a></li>
   {% endfor %}
 </ul>
+
+</main>
 
 {% render 'partials/foot.liquid', squads: squads %}

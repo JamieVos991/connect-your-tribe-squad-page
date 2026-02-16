@@ -101,6 +101,45 @@ app.get('/student/:id', async function (request, response) {
   response.render('student.liquid', {person: personDetailResponseJSON.data, squads: squadResponseJSON.data})
 })
 
+app.get('/seizoen', async function (request, response) {
+  const params = {
+    'sort': 'name',
+    'fields': '*,squads.*',
+    // Combineer meerdere filters
+    'filter[squads][squad_id][tribe][name]': 'FDND Jaar 1',
+    // Filter eventueel alleen op een bepaalde squad
+    // 'filter[squads][squad_id][name]': '1I',
+    'filter[squads][squad_id][name]': '1J',
+    // 'filter[squads][squad_id][cohort]': '2526'
+  }
+  const personResponse = await fetch('https://fdnd.directus.app/items/person/?' + new URLSearchParams(params))
+  const personResponseJSON = await personResponse.json()
+  response.render('seizoen.liquid', {persons: personResponseJSON.data, squads: squadResponseJSON.data})
+  
+})
+
+//fav seizoen dit zorgt ervoor dat als je op een tulp emoji klikt de url hier beneden komt
+//https://fdnd.directus.app/items/person/?filter[fav_season]=Tulp
+//filter[fav_season]=' + request.params.id
+app.get('/seizoen/:id', async function (request, response) {
+  const params = {
+    'sort': 'name',
+    'fields': '*,squads.*',
+    // // Combineer meerdere filters
+    // 'filter[squads][squad_id][tribe][name]': 'FDND Jaar 1',
+    // // Filter eventueel alleen op een bepaalde squad
+    // // 'filter[squads][squad_id][name]': '1I',
+    'filter[squads][squad_id][name]': '1J',
+    'filter[fav_season]': `${request.params.id}`
+  }
+  const personResponse = await fetch('https://fdnd.directus.app/items/person/?' + new URLSearchParams(params))
+
+  const personResponseJSON = await personResponse.json()
+  response.render('seizoen.liquid', {persons: personResponseJSON.data, squads: squadResponseJSON.data})
+  
+})
+
+
 
 // Stel het poortnummer in waar express op moet gaan luisteren
 app.set('port', process.env.PORT || 8000)
